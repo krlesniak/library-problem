@@ -3,9 +3,6 @@
 |       PROJEKT 3: System Zarządzania Czytelnią (Problem Czytelników i Pisarzy)         |
 |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|
 
-AUTOR: Krzysztof Leśniak
-GRUPA: Poniedziałek 18:30
-
 1. OMÓWIENIE ALGORYTMU I KOMUNIKACJI MIĘDZY WĄTKAMI
 --------------------------------------------------
 Projekt implementuje klasyczny problem synchronizacji "Czytelnicy i Pisarze"
