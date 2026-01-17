@@ -24,7 +24,14 @@ Komunikacja:
 
 2. SPOSÓB URUCHOMIENIA
 ----------------------
-Program można uruchomić z linii komend przy użyciu skompilowanej paczki JAR:
+
+Przed uruchomieniem programu należy skompilować kod i wygenerować plik wykonywalny JAR.
+Wymaga to zainstalowanego narzędzia Maven. W folderze głównym projektu wykonaj komendę:
+
+Komenda: mvn clean install
+
+Komenda ta wyczyści poprzednie kompilacje, uruchomi testy jednostkowe i stworzy folder target/,
+w którym znajdzie się gotowy plik .jar. Program można uruchomić z linii komend przy użyciu skompilowanej paczki JAR:
 
 Komenda: java -jar target/library-problem-1.0-SNAPSHOT.jar 10 3
 

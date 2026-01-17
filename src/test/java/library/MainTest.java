@@ -6,36 +6,42 @@ import java.io.InputStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MainTest {
+
     @Test
     void testMainConstructor() {
-        // for an empty constructor
         Main mainApp = new Main();
         assertNotNull(mainApp);
     }
 
     @Test
-    void testMainCoverage() throws InterruptedException {
-        // system in mock
+    void testMainWithNoArgs() throws InterruptedException {
+        // testing no parameters (else)
+        runMainWithArgs(new String[]{});
+    }
+
+    @Test
+    void testMainWithValidArgs() throws InterruptedException {
+        // testing valid parameters (if)
+        runMainWithArgs(new String[]{"2", "1"});
+    }
+
+    @Test
+    void testMainWithInvalidArgs() throws InterruptedException {
+        // testing catch block (for example string parameters)
+        runMainWithArgs(new String[]{"abc", "def"});
+    }
+
+    // main thread and interrupting it
+    private void runMainWithArgs(String[] args) throws InterruptedException {
         InputStream originalIn = System.in;
         System.setIn(new ByteArrayInputStream("\n".getBytes()));
 
-        // main thread in virtual thread
-        Thread t = Thread.ofVirtual().start(() -> Main.main(new String[]{}));
+        Thread t = Thread.ofVirtual().start(() -> Main.main(args));
 
-        // waiting until main thread enters phase IMED_WAITING
-        long timeout = System.currentTimeMillis() + 2000;
-        while (t.getState() != Thread.State.TIMED_WAITING && t.isAlive()) {
-            if (System.currentTimeMillis() > timeout) break;
-            Thread.onSpinWait();
-        }
-
-        // interrupting therad and entering catch block
-        t.interrupt();
+        t.interrupt(); // cacth block in main
         t.join(1000);
 
-        assertFalse(t.isAlive(), "Thread main should end");
-
-        // setting back original system out
+        assertFalse(t.isAlive(), "Main thread should terminate after interruption");
         System.setIn(originalIn);
     }
 }
