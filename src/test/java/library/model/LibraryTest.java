@@ -20,13 +20,14 @@ class LibraryTest {
         assertNotNull(lib);
     }
 
+    // testing 6th reader trying to enter
     @Test
     @Timeout(value = 5)
     void testReaderLimit() throws InterruptedException {
         // filling the library with 5 readers
         for (int i = 1; i <= 5; i++) { library.startReading("Reader-" + i); }
 
-        // sixth reader isn trying to enter
+        // sixth reader is trying to enter
         Thread r6 = Thread.ofVirtual().start(() -> {
             try { library.startReading("Reader-6"); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
         });
@@ -122,7 +123,7 @@ class LibraryTest {
 
         while (writer.getState() != Thread.State.WAITING) { Thread.onSpinWait(); }
 
-        // Tcatch block
+        // catch block
         writer.interrupt();
         writer.join(1000);
         assertFalse(writer.isAlive());

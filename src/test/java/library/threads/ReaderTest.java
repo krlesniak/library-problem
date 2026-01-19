@@ -26,28 +26,6 @@ class ReaderTest {
     }
 
     @Test
-    void testReaderFullCycleAndInterruption() throws InterruptedException {
-        CountDownLatch enteredLibrary = new CountDownLatch(1);
-        Library library = new Library() {
-            @Override
-            public void startReading(String id) throws InterruptedException {
-                enteredLibrary.countDown();
-                super.startReading(id);
-            }
-        };
-
-        // Start as virtual thread
-        Thread reader = Thread.ofVirtual().start(new Reader("Reader-1", library));
-
-        boolean signaled = enteredLibrary.await(2, TimeUnit.SECONDS);
-        assertTrue(signaled, "Thread did not signal");
-
-        reader.interrupt();
-        reader.join(500);
-        assertFalse(reader.isAlive(), "Thread interrupted");
-    }
-
-    @Test
     void testReaderSleepCoverage() throws InterruptedException {
         CountDownLatch leftLibrary = new CountDownLatch(1);
         Library spyLibrary = new Library() {

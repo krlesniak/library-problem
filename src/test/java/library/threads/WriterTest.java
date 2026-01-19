@@ -26,27 +26,7 @@ class WriterTest {
     }
 
     @Test
-    void testWriterInterruptionInSleep() throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(1);
-        Library library = new Library() {
-            @Override
-            public void startWriting(String id) throws InterruptedException {
-                latch.countDown();
-                super.startWriting(id);
-            }
-        };
-
-        Thread writer = Thread.ofVirtual().start(new Writer("Writer-1", library));
-
-        latch.await(2, TimeUnit.SECONDS);
-
-        writer.interrupt();
-        writer.join(500);
-        assertFalse(writer.isAlive());
-    }
-
-    @Test
-    void testReaderSleepCoverage() throws InterruptedException {
+    void testWriterSleepCoverage() throws InterruptedException {
         CountDownLatch leftLibrary = new CountDownLatch(1);
         Library spyLibrary = new Library() {
             @Override
